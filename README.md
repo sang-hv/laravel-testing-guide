@@ -23,6 +23,15 @@
     ```
 - Những hàm không làm nhiệm vụ test có thể tuân theo quy tắc đặt tên của PSR-2, tức dùng `camelCase` để đặt tên.
 
+## Chạy Test
+```dotenv
+// Run unit test
+phpunit test/Unit/path/file_name
+
+// Run feature test
+phpunit test/Feature/path/file_name
+```
+
 ## [Yêu cầu trong Feature Test](FeatureTest)
 
 
