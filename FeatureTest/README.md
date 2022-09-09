@@ -1,12 +1,6 @@
 # Feature Tests
 
-Mục đích của Integration Test là để chắc chắn rằng tất cả các components làm việc với nhau như ta mong muốn.
-
-Khi thực hiện kiểu test này, hãy nhớ rằng những thay đổi với data storage hay những thao tác với các service bên ngoài là có thể xảy ra.
-
-Để có thể giải quyết một cách đúng đắn những tình huống như vậy, có thể bạn vẫn cần phải tạo các [Test Doubles](../Knowledge.md#test-doubles) cho một vài class.
-
-Việc những Class nào cần đến Test Doubles thì phụ thuộc vào cách tiếp cận của từng team, và có thể khác biệt phụ thuộc vào độ lớn của application.
+Mục đích của Feature Test (Integration Test) là để chắc chắn rằng tất cả các components làm việc với nhau như ta mong muốn.
 
 ## Guide
 Feature test PHẢI cover được TOÀN BỘ route của application, và phải tuân thủ các mục đích sau:
@@ -25,7 +19,7 @@ Feature test PHẢI cover được TOÀN BỘ route của application, và phả
 - Kiểm tra việc insert dữ liệu không bình thường thì có được xử lý chính xác hay không.
 
 ## Note
-1. Tất cả các data dùng [`factory`](https://laravel.com/docs/5.8/database-testing#writing-factories)
+1. Fake các data dùng [`Factory`](https://laravel.com/docs/8.x/database-testing#defining-model-factories)
 
 2. Tất cả các test `phải` kiểm tra status code
 ```dotenv
@@ -72,11 +66,17 @@ $this->assertDatabaseMissing('table_name', data_compare_array); // có thể dù
     );
 ```
 
-5. Cần kiểm tra các giá trị của các session (nếu có)
+5. Cần kiểm tra các key - value trong session (nếu có)
+ - Lưu các key - value vào session
 ```dotenv
     $response->assertSessionHas('flash_danger', __('You do not have access to do that.'));
-    // OR
-    $response->assertSessionHasErrors('name', 'email');
+```
+- Validate error 
+```dotenv
+    $response->assertSessionHasErrors([
+        'id' => '必須項目です。値を必ずご入力してください。',
+        'password' => '必須項目です。値を必ずご入力してください。'
+    ]);
 ```
 
 6. Đối với các chức năng sau khi submit form, cần kiểm tra redirect đến url nào
